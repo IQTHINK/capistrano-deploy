@@ -2,7 +2,7 @@
 Github deploy action for Capistrano. Use this action to automate your capistrano deployment process.
 
 ## Dependencies
-Ruby should be installed with official ruby action (https://github.com/actions/setup-ruby)
+Ruby should be installed with the official ruby action (https://github.com/ruby/setup-ruby)
 
 ## Inputs
 ### `target`
@@ -22,7 +22,7 @@ The directory from which to run the deploy commands, including `bundle install`.
 
 ### `bundler_version`
 
-The version of Bundler to install before running the bundle-command. By default Bundler v1.17.3 is used.
+The version of Bundler to install before running the bundle-command. By default Bundler v2.1.4 is used.
 
 ## Outputs
 No outputs
@@ -58,11 +58,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout repository
+      uses: actions/checkout@v2
     - name: Set up Ruby
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6
+        ruby-version: 2.6 # Not needed with a .ruby-version file
     - name: Restore Bundler cache
       id: cache
       uses: actions/cache@v1
@@ -71,8 +72,10 @@ jobs:
         key: ${{ runner.os }}-bundle-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-bundle-
-    - uses: miloserdow/capistrano-deploy@v2.1
+    - name: Deploy application
+      uses: IQTHINK/capistrano-deploy@v2.2
       with:
         target: production
         deploy_key: ${{ secrets.DEPLOY_ENC_KEY }}
+        bundler_version: 2.1.0 # default 2.1.4
 ```

@@ -2,10 +2,10 @@ name: 'Capistrano deploy'
 description: 'Deploy an application using capistrano to the given target'
 branding:
   icon: 'arrow-right-circle'
-  color: 'black'
+  color: 'gray-dark'
 inputs:
   bundler_version:
-    default: '1.17.3'
+    default: '2.1.4'
     description: 'The version of Bundler to install before running the bundle-command'
     required: true
   target:  # string
@@ -21,7 +21,7 @@ inputs:
   enc_rsa_key_val:
     description: 'Value of the SSH private key encrypted with deploy_key'
     required: false
-  working-directory:
+  working_directory:
     description: 'The directory from which to run the deploy command'
     required: false
     default: ''
